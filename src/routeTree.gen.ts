@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as FailedPaymentsRouteImport } from './routes/failed-payments'
+import { Route as RecoveryQueueRouteImport } from './routes/recovery-queue'
 import { Route as TransactionIdRouteImport } from './routes/transaction.$id'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const FailedPaymentsRoute = FailedPaymentsRouteImport.update({
   path: '/failed-payments',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RecoveryQueueRoute = RecoveryQueueRouteImport.update({
+  id: '/recovery-queue',
+  path: '/recovery-queue',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TransactionIdRoute = TransactionIdRouteImport.update({
   id: '/transaction/$id',
   path: '/transaction/$id',
@@ -32,30 +38,39 @@ const TransactionIdRoute = TransactionIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/failed-payments': typeof FailedPaymentsRoute
+  '/recovery-queue': typeof RecoveryQueueRoute
   '/transaction/$id': typeof TransactionIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/failed-payments': typeof FailedPaymentsRoute
+  '/recovery-queue': typeof RecoveryQueueRoute
   '/transaction/$id': typeof TransactionIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/failed-payments': typeof FailedPaymentsRoute
+  '/recovery-queue': typeof RecoveryQueueRoute
   '/transaction/$id': typeof TransactionIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/failed-payments' | '/transaction/$id'
+  fullPaths: '/' | '/failed-payments' | '/recovery-queue' | '/transaction/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/failed-payments' | '/transaction/$id'
-  id: '__root__' | '/' | '/failed-payments' | '/transaction/$id'
+  to: '/' | '/failed-payments' | '/recovery-queue' | '/transaction/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/failed-payments'
+    | '/recovery-queue'
+    | '/transaction/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   FailedPaymentsRoute: typeof FailedPaymentsRoute
+  RecoveryQueueRoute: typeof RecoveryQueueRoute
   TransactionIdRoute: typeof TransactionIdRoute
 }
 
@@ -75,6 +90,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FailedPaymentsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/recovery-queue': {
+      id: '/recovery-queue'
+      path: '/recovery-queue'
+      fullPath: '/recovery-queue'
+      preLoaderRoute: typeof RecoveryQueueRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/transaction/$id': {
       id: '/transaction/$id'
       path: '/transaction/$id'
@@ -88,6 +110,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   FailedPaymentsRoute: FailedPaymentsRoute,
+  RecoveryQueueRoute: RecoveryQueueRoute,
   TransactionIdRoute: TransactionIdRoute,
 }
 export const routeTree = rootRouteImport
